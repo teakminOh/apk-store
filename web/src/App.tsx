@@ -1,121 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { BrowserRouter, Link, NavLink, Route, Routes } from 'react-router-dom'
+import AdminPage from './pages/AdminPage'
+import AppDetailPage from './pages/AppDetailPage'
+import CatalogPage from './pages/CatalogPage'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <BrowserRouter>
+      <StoreShell />
+    </BrowserRouter>
+  )
+}
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+function StoreShell() {
+  return (
+    <div className="min-h-screen bg-[#020403] text-zinc-100">
+      <header className="sticky top-0 z-10 border-b border-white/10 bg-black/80 backdrop-blur-xl">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+          <Link className="flex min-w-0 items-center gap-3 text-zinc-50 no-underline" to="/">
+            <span className="grid h-10 w-10 place-items-center rounded-lg border border-emerald-400/30 bg-emerald-400/10 text-sm font-black text-emerald-300 shadow-[0_0_30px_rgba(16,185,129,0.16)]">
+              A
+            </span>
+            <span>
+              <strong className="block text-sm font-semibold sm:text-base">APK Store</strong>
+              <small className="block text-xs text-zinc-500">Public Android releases</small>
+            </span>
+          </Link>
+          <nav className="flex gap-1 rounded-lg border border-white/10 bg-white/[0.03] p-1">
+            <NavLink
+              className={({ isActive }) =>
+                [
+                  'rounded-md px-3 py-2 text-sm font-medium transition',
+                  isActive
+                    ? 'bg-emerald-400 text-black'
+                    : 'text-zinc-400 hover:bg-white/5 hover:text-zinc-100',
+                ].join(' ')
+              }
+              to="/"
+            >
+              Catalog
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                [
+                  'rounded-md px-3 py-2 text-sm font-medium transition',
+                  isActive
+                    ? 'bg-emerald-400 text-black'
+                    : 'text-zinc-400 hover:bg-white/5 hover:text-zinc-100',
+                ].join(' ')
+              }
+              to="/admin"
+            >
+              Admin
+            </NavLink>
+          </nav>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      </header>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
+        <Routes>
+          <Route path="/" element={<CatalogPage />} />
+          <Route path="/apps/:slug" element={<AppDetailPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+        </Routes>
+      </main>
+    </div>
   )
 }
 
